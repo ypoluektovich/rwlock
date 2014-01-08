@@ -62,6 +62,7 @@ namespace nbrwl {
         public:
             rwlock lockForRead();
             rwlock lockForWrite();
+            bool isLockFree() const;
     };
 
 }
