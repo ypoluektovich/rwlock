@@ -69,4 +69,8 @@ namespace nbrwl {
         ));
     }
 
+    bool rwlockable::isLockFree() const {
+        return counters_.is_lock_free();
+    }
+
 }
