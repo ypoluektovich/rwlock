@@ -17,4 +17,4 @@ LIBVER_REV=0
 
 SONAME="lib${LIBNAME}.so.${LIBVER_MAJOR}"
 g++ -std=c++11 -fpic -Wall -g -c -I ../include ../src/*.cpp
-g++ -g -shared "-Wl,-soname,${SONAME}" -o "${SONAME}.${LIBVER_MINOR}.${LIBVER_REV}" *.o
+g++ -g -shared "-Wl,-soname,${SONAME}" "-Wl,-z,defs" -o "${SONAME}.${LIBVER_MINOR}.${LIBVER_REV}" *.o
