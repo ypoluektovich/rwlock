@@ -38,11 +38,9 @@ namespace nbrwl {
         private:
             class counters {
                 private:
-                    unsigned int read_;
-                    unsigned int writeClaim_;
-                    unsigned int writeDone_;
-
-                    static unsigned int const MAX_CONSECUTIVE_WRITES = INT_MAX;
+                    uint16_t read_;
+                    uint8_t writeClaim_;
+                    uint8_t writeDone_;
                 public:
                     bool isWaitingForWrite() const;
                     bool isWaitingForRead() const;
