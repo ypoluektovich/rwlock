@@ -46,8 +46,8 @@ namespace nbrwl {
                     bool isWaitingForRead() const;
                     bool isMyTurnToWrite(counters const & claim) const;
 
-                    counters wantToRead() const;
-                    counters wantToWrite() const;
+                    bool wantToRead(counters * buf) const;
+                    bool wantToWrite(counters * buf) const;
                     counters doneReading() const;
                     counters doneWriting() const;
             };
