@@ -5,26 +5,24 @@ namespace nbrwl {
 
     rwlock rwlockable::lockForRead() {
         bool written = false;
-        while (!written) {
+        do {
             counters exp = counters_.load(std::memory_order_acquire);
-            if (!exp.isWaitingForWrite()) {
-                counters des = exp.wantToRead();
-                while (!(written = counters_.compare_exchange_weak(
-                                exp, des,
-                                std::memory_order_release,
-                                std::memory_order_acquire
-                ))) {
-                    if (exp.isWaitingForWrite()) {
-                        break;
-                    }
-                    des = exp.wantToRead();
-                }
-                if (written) {
+            do {
+                if (exp.isWaitingForWrite()) {
                     break;
                 }
-            }
-            // todo: progressive backoff
-        }
+                counters claim;
+                if (!exp.wantToRead(&claim)) {
+                    break;
+                }
+                written = counters_.compare_exchange_weak(
+                        exp, claim,
+                        std::memory_order_release,
+                        std::memory_order_acquire
+                );
+            } while (!written);
+            // todo: if (!written) progressive backoff
+        } while (!written);
         return rwlock(this, false);
     }
 
@@ -32,7 +30,10 @@ namespace nbrwl {
         counters exp = counters_.load(std::memory_order_acquire);
         counters claim;
         do {
-            claim = exp.wantToWrite();
+            while (!exp.wantToWrite(&claim)) {
+                // todo: progressive backoff
+                exp = counters_.load(std::memory_order_acquire);
+            }
         } while (!counters_.compare_exchange_weak(
                     exp, claim,
                     std::memory_order_release,

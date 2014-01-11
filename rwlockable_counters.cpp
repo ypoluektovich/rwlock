@@ -14,16 +14,22 @@ namespace nbrwl {
         return writeDone_ == claim.writeClaim_ - 1;
     }
 
-    rwlockable::counters rwlockable::counters::wantToRead() const {
-        counters c = *this;
-        c.read_ += 1;
-        return c;
+    bool rwlockable::counters::wantToRead(rwlockable::counters * buf) const {
+        if (read_ == UINT16_MAX) {
+            return false;
+        }
+        *buf = *this;
+        buf->read_ += 1;
+        return true;
     }
 
-    rwlockable::counters rwlockable::counters::wantToWrite() const {
-        counters c = *this;
-        c.writeClaim_ += 1;
-        return c;
+    bool rwlockable::counters::wantToWrite(rwlockable::counters * buf) const {
+        if (writeClaim_ == UINT8_MAX) {
+            return false;
+        }
+        *buf = *this;
+        buf->writeClaim_ += 1;
+        return true;
     }
 
     rwlockable::counters rwlockable::counters::doneReading() const {
@@ -35,6 +41,9 @@ namespace nbrwl {
     rwlockable::counters rwlockable::counters::doneWriting() const {
         counters c = *this;
         c.writeDone_ += 1;
+        if (c.writeDone_ == UINT8_MAX) {
+            c.writeClaim_ = c.writeDone_ = 0;
+        }
         return c;
     }
 
