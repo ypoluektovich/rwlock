@@ -22,11 +22,12 @@ This library is built using CMake.
 ### Static library
 
     $ mkdir lib && cd lib
-    $ cmake .. && make rwlock-static
+    $ cmake .. && make rwlock_static
 
 
 ## How to test
 
-Unit tests are written using CxxTest framework. Make sure it's present on your system, or CMake will complain.
-
-Build as a shared library. Then run `make rwlock-tests`, then `make test`.
+* Unit tests are written using CxxTest framework. Make sure it's present on your system, or CMake will complain.
+* Build rwlock as a shared library.
+* Run `make rwlock-tests` to generate and build tests.
+* Run `make test` to actually run tests.
