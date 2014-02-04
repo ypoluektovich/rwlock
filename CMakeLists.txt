@@ -21,4 +21,5 @@ set_target_properties(
         SOVERSION "2"
 )
 
-include_directories("include")
+target_include_directories(rwlock PUBLIC "include")
+target_include_directories(rwlock_static PUBLIC "include")
