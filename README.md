@@ -27,4 +27,6 @@ This library is built using CMake.
 
 ## How to test
 
+Unit tests are written using CxxTest framework. Make sure it's present on your system, or CMake will complain.
+
 Build as a shared library. Then run `make rwlock-tests`, then `make test`.
