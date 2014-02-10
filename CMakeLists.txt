@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
 set(_RWLOCK_SOURCES src/rwlock.cpp src/rwlockable.cpp src/rwlockable_counters.cpp)
-set(_RWLOCK_COMPILE_FLAGS "-Wall -std=c++11")
+set(_RWLOCK_COMPILE_FLAGS "-Wall -Wextra -Wpedantic -std=c++11")
 set(_RWLOCK_LINK_FLAGS "-Wl,-z,defs")
 
 add_library(rwlock        SHARED EXCLUDE_FROM_ALL ${_RWLOCK_SOURCES})
